@@ -25,4 +25,25 @@ module.exports = class MessageController {
             })
         }
     }
+
+    static async MessagesGET(req, res) {
+        try {
+            const { user_id } = req.user
+
+            const messageList = await messages.find({
+                from_id: user_id,
+            })
+
+            res.status(200).json({
+                ok: true,
+                messages: messageList,
+            })
+        } catch(e) {
+            console.log(e)
+            res.status(400).json({
+                ok: false,
+                message: e + "",
+            })
+        }
+    }
 }
