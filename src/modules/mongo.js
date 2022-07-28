@@ -2,6 +2,8 @@ const mongoose = require("mongoose")
 const { MONGO_URL } = require("../../config")
 
 // Models
+require("../model/UserModel")
+require("../model/MessageModel")
 
 module.exports = async function mongo() {
     try {
