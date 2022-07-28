@@ -29,9 +29,11 @@ module.exports = class MessageController {
     static async MessagesGET(req, res) {
         try {
             const { user_id } = req.user
+            const { to_id } = req.body
 
             const messageList = await messages.find({
                 from_id: user_id,
+                to_id,
             })
 
             res.status(200).json({
