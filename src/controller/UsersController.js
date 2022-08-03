@@ -16,16 +16,16 @@ module.exports = class UsersController {
         }
     }
 
-    static async LoginGET(req, res) {
-        try {
-            res.render("login")
-        } catch(e) {
-            console.log(e)
-            res.status(400).json({
-                ok: false,
-            })
-        }
-    }
+    // static async LoginGET(req, res) {
+    //     try {
+    //         res.render("login")
+    //     } catch(e) {
+    //         console.log(e)
+    //         res.status(400).json({
+    //             ok: false,
+    //         })
+    //     }
+    // }
 
     static async SignUpPOST(req, res) {
         try {
@@ -67,14 +67,14 @@ module.exports = class UsersController {
             res.cookie("token", token).redirect("/")
         } catch(e) {
             console.log(e)
-            res.render("sign-up", {
-                ok: false,
-                message: e + "",
-            })
-            // res.status(400).json({
+            // res.render("sign-up", {
             //     ok: false,
             //     message: e + "",
             // })
+            res.status(400).json({
+                ok: false,
+                message: e + "",
+            })
         }
     }
 
@@ -99,15 +99,15 @@ module.exports = class UsersController {
 
             res.cookie("token", token).redirect("/")
         } catch(e) {
-            console.log(e)
-            res.render("login", {
-                ok: false,
-                message: e + "",
-            })
-            // res.status(400).json({
+            // console.log(e)
+            // res.render("login", {
             //     ok: false,
             //     message: e + "",
             // })
+            res.status(400).json({
+                ok: false,
+                message: e + "",
+            })
         }
     }
 
