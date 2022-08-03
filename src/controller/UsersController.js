@@ -2,8 +2,31 @@ const { v4 } = require("uuid")
 const users = require("../model/UserModel")
 const { generateHash, compareHash } = require("../modules/bcrypt")
 const { generateToken } = require("../modules/jwt")
+const user_list = require("../model/.UserListModel")
 
 module.exports = class UsersController {
+    static async SignUpGET(req, res) {
+        try {
+            res.render("sign-up")
+        } catch(e) {
+            console.log(e)
+            res.status(400).json({
+                ok: false,
+            })
+        }
+    }
+
+    static async LoginGET(req, res) {
+        try {
+            res.render("login")
+        } catch(e) {
+            console.log(e)
+            res.status(400).json({
+                ok: false,
+            })
+        }
+    }
+
     static async SignUpPOST(req, res) {
         try {
             const { username, email, password } = req.body
@@ -21,7 +44,7 @@ module.exports = class UsersController {
             if(user) throw new Error("email already exists")
 
             const hash = await generateHash(password)
-
+            
             user = await users.create({
                 user_id: v4(),
                 username,
@@ -29,22 +52,29 @@ module.exports = class UsersController {
                 password: hash,
             })
 
+            await user_list.create({
+                ...user._doc,
+                password: undefined,
+                is_verify: undefined,
+                email: undefined,
+            })
+
             const token = generateToken({
                 ...user._doc,
                 password: undefined,
             })
 
-            res.cookie("token", token).status(201).json({
-                ok: true,
-                message: "registered",
-                token,
-            })
+            res.cookie("token", token).redirect("/")
         } catch(e) {
             console.log(e)
-            res.status(400).json({
+            res.render("sign-up", {
                 ok: false,
                 message: e + "",
             })
+            // res.status(400).json({
+            //     ok: false,
+            //     message: e + "",
+            // })
         }
     }
 
@@ -67,17 +97,19 @@ module.exports = class UsersController {
                 password: undefined,
             })
 
-            res.cookie("token", token).status(200).json({
-                ok: true,
-                message: "Login",
-                token: token,
-            })
+            res.cookie("token", token).redirect("/")
         } catch(e) {
             console.log(e)
-            res.status(400).json({
+            res.render("login", {
                 ok: false,
                 message: e + "",
             })
+            // res.status(400).json({
+            //     ok: false,
+            //     message: e + "",
+            // })
         }
     }
+
+    
 }

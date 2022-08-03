@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const UserSchema = new mongoose.Schema({
+const UserListSchema = new mongoose.Schema({
     user_id: {
         type: String,
         required: true,
@@ -20,28 +20,10 @@ const UserSchema = new mongoose.Schema({
         max: 20,
         unique: true,
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        max: 50,
-    },
-    // gender: {
-    //     type: String,
-    //     enum: "male" || "female",
-    // },
-    password: {
-        type: String,
-        required: true,
-    },
-    is_verify: {
-        type: Boolean,
-        default: false,
-    },
     profile_picture: {
         type: String,
         default: "",
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model("users", UserSchema)
+module.exports = mongoose.model("user_list", UserListSchema)
