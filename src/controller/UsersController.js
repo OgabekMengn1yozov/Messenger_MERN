@@ -99,15 +99,15 @@ module.exports = class UsersController {
 
             res.cookie("token", token).redirect("/")
         } catch(e) {
-            // console.log(e)
-            // res.render("login", {
-            //     ok: false,
-            //     message: e + "",
-            // })
-            res.status(400).json({
+            console.log(e)
+            res.render("login", {
                 ok: false,
                 message: e + "",
             })
+            // res.status(400).json({
+            //     ok: false,
+            //     message: e + "",
+            // })
         }
     }
 
