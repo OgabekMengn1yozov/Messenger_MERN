@@ -16,16 +16,16 @@ module.exports = class UsersController {
         }
     }
 
-    // static async LoginGET(req, res) {
-    //     try {
-    //         res.render("login")
-    //     } catch(e) {
-    //         console.log(e)
-    //         res.status(400).json({
-    //             ok: false,
-    //         })
-    //     }
-    // }
+    static async LoginGET(req, res) {
+        try {
+            res.render("login")
+        } catch(e) {
+            console.log(e)
+            res.status(400).json({
+                ok: false,
+            })
+        }
+    }
 
     static async SignUpPOST(req, res) {
         try {
