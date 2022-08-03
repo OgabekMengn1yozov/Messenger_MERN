@@ -2,7 +2,7 @@ const { v4 } = require("uuid")
 const users = require("../model/UserModel")
 const { generateHash, compareHash } = require("../modules/bcrypt")
 const { generateToken } = require("../modules/jwt")
-const user_list = require("../model/.UserListModel")
+const user_list = require("../model/UserListModel")
 
 module.exports = class UsersController {
     static async SignUpGET(req, res) {

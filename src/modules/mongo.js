@@ -4,7 +4,7 @@ const { MONGO_URL } = require("../../config")
 // Models
 require("../model/UserModel")
 require("../model/MessageModel")
-require("../model/.UserListModel")
+require("../model/UserListModel")
 
 module.exports = async function mongo() {
     try {

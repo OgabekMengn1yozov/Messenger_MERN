@@ -1,7 +1,7 @@
 const { v4 } = require("uuid")
 const messages = require("../model/MessageModel")
 const users = require("../model/UserModel")
-const user_list = require("../model/.UserListModel")
+const user_list = require("../model/UserListModel")
 
 module.exports = class MessageController {
     static async MessagePost(req, res) {
