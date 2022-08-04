@@ -194,7 +194,48 @@
                     </div>
                 `
         })
-
         
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault()
+
+            let text = form.querySelector("input[name='text']").value.trim()
+
+            let response = await fetch(`/${user_id}`, {
+                body: JSON.stringify({
+                    text,
+                }),
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                }
+            })
+
+            response = await response.json()
+
+            if(response.ok) {
+                const chat = document.querySelector(".chat-messages")
+
+                socket.emit("newMessage", response)
+
+                chat.innerHTML += `
+                    <div class="chat-message-right pb-4">
+                        <div>
+                            <div class="text-muted small text-nowrap mt-2">
+                                 ${"${message.updatedAt}".split(" ")[4]} 
+                            </div>
+                        </div>
+                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                    <!-- <div class="font-weight-bold mb-1">You</div> -->
+                        ${text} 
+                        </div>
+                    </div>
+                `
+            }
+
+
+        })
+
+    </script>
+
 </body>
 </html>
