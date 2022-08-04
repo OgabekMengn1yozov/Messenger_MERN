@@ -41,7 +41,11 @@ const UserSchema = new mongoose.Schema({
     profile_picture: {
         type: String,
         default: "",
+    },
+    socket_id: {
+        type: String,
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model("users", UserSchema)
+const users = mongoose.model("users", UserSchema)
+module.exports = users
