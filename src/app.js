@@ -2,7 +2,7 @@ const Path = require("path")
 const Fs = require("fs")
 const http = require("http")
 const { Server } = require("socket.io")
-// const Morgan = require("morgan")
+const Morgan = require("morgan")
 const Express = require("express")
 const CookieParser = require("cookie-parser")
 const ExpressFileUpload = require("express-fileupload")
@@ -16,7 +16,7 @@ const app = Express()
 const server = http.createServer(app)
 const io = new Server(server)
   
-io.on('connection', async (socket) => {
+io.on('connect', async (socket) => {
     console.log(socket.id ,'a user connected');
 
     let cookies = socket.handshake.headers.cookie.split("; ")
@@ -26,10 +26,9 @@ io.on('connection', async (socket) => {
             token = cookie.split("=")[1]
         }
     })
-
+        
     token = verifyToken(token)
 
-    console.log(token)
     const user = await users.findOneAndUpdate(
         {
             user_id: token.user_id,
@@ -38,9 +37,13 @@ io.on('connection', async (socket) => {
             socket_id: socket.id,
         }
     )
-    console.log(user)
+    // console.log(user)
     socket.on("newMessage", (data) => {
-        socket.to(data.user.socket_id).emit("newMessage", data);
+        socket.to(data.you.socket_id).emit("newMessage", data);
+    });
+
+    socket.on("disconnect", (data) => {
+        console.log(socket.id, "chiqdi");
     });
 });
 

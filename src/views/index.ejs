@@ -36,7 +36,7 @@
                             <a href="<%= member.user_id %> " class="list-group-item list-group-item-action border-0">
                                 <div class="badge bg-success float-right">5</div>
                                 <div class="d-flex align-items-start">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
+                                    <img src="/public/img/default-user.jpg" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
                                     <div class="flex-grow-1 ml-3">
                                         <%= member.username %> 
                                         <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
@@ -52,11 +52,11 @@
 					<div class="py-2 px-4 border-bottom d-none d-lg-block">
 						<div class="d-flex align-items-center py-1">
 							<div class="position-relative">
-								<img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+								<img src="/public/img/default-user.jpg" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
 							</div>
 							<div class="flex-grow-1 pl-3">
-								<strong><%= user.username %> </strong>
-								<div class="text-muted small"><em>Typing...</em></div>
+								<strong><%= you ? you.username : "Chatni tanlang" %> </strong>
+								<!-- <div class="text-muted small"><em>Typing...</em></div> -->
 							</div>
 							<div>
 								<button class="btn btn-primary btn-lg mr-1 px-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone feather-lg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></button>
@@ -179,17 +179,19 @@
 
         socket.on("newMessage", (data) => {
             const chat = document.querySelector(".chat-messages")
-
+            console.log(data, "data")
+            const time = `${data.message.createdAt}`.split("T")[1].split(".")[0]
+            console.log(time)
             chat.innerHTML += `
-                    <div class="chat-message-right pb-4">
+                    <div class="chat-message-left pb-4">
                         <div>
                             <div class="text-muted small text-nowrap mt-2">
-                                 ${"${message.updatedAt}".split(" ")[4]} 
+                                 ${time} 
                             </div>
                         </div>
                     <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                     <!-- <div class="font-weight-bold mb-1">You</div> -->
-                        ${text} 
+                        ${data.message.text} 
                         </div>
                     </div>
                 `
@@ -216,12 +218,13 @@
                 const chat = document.querySelector(".chat-messages")
 
                 socket.emit("newMessage", response)
-
+                console.log(response)
+                const time = `${response.message.createdAt}`.split("T")[1].split(".")[0]
                 chat.innerHTML += `
                     <div class="chat-message-right pb-4">
                         <div>
                             <div class="text-muted small text-nowrap mt-2">
-                                 ${"${message.updatedAt}".split(" ")[4]} 
+                                 ${time} 
                             </div>
                         </div>
                     <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
@@ -231,8 +234,6 @@
                     </div>
                 `
             }
-
-
         })
 
     </script>

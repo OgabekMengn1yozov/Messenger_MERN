@@ -19,7 +19,12 @@ const MessageSchema = new mongoose.Schema({
     to_id: {
         type: String,
         required: true,
+    },
+    read: {
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model("messages", MessageSchema)
+const messages = mongoose.model("messages", MessageSchema)
+module.exports = messages

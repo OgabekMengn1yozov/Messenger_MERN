@@ -10,6 +10,10 @@ module.exports = class MessageController {
             const { to_id } = req.params
             const { user_id } = req.user
 
+            const you = await users.findOne({
+                user_id: to_id,
+            })
+
             const message = await messages.create({
                 message_id: v4(),
                 text, 
@@ -20,6 +24,7 @@ module.exports = class MessageController {
             res.status(201).json({
                 ok: true,
                 message,
+                you,
             })
         } catch(e) {
             console.log(e)
@@ -82,6 +87,12 @@ module.exports = class MessageController {
             const user = await users.findOne({
                 user_id,
             })
+
+            const messageList = await messages.find({
+                from_id: user_id,
+                read: false,
+            })
+            console.log(messageList)
 
             res.render("index", {
                 data: userList,
